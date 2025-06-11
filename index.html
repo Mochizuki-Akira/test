@@ -2,27 +2,126 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="2; url=https://mochizuki-akira.github.io/class-wang/">
-  <title>リダイレクト中...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>築夢 | Build Dream</title>
   <style>
     body {
-      font-family: sans-serif;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fdfdfc;
+      color: #333;
+    }
+    header {
+      background-color: #fff;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+    .logo img {
+      height: 60px;
+      margin-right: 15px;
+    }
+    .logo-text {
+      font-size: 24px;
+      font-weight: bold;
+      color: #a67c00;
+    }
+    nav a {
+      margin-left: 25px;
+      text-decoration: none;
+      color: #555;
+      font-weight: 500;
+    }
+    nav a:hover {
+      color: #a67c00;
+    }
+    main {
+      padding: 60px 40px;
       text-align: center;
-      padding-top: 100px;
-      background-color: #f0f4f8;
+    }
+    h1 {
+      font-size: 36px;
+      margin-bottom: 10px;
+      color: #222;
     }
     p {
-      font-size: 1.2em;
+      font-size: 18px;
+      line-height: 1.8;
+      max-width: 700px;
+      margin: auto;
+      margin-bottom: 40px;
     }
-    a {
-      color: #4a90e2;
-      text-decoration: none;
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+    }
+    .feature {
+      background-color: #fff;
+      padding: 20px;
+      border: 1px solid #eee;
+      width: 280px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.03);
+    }
+    footer {
+      margin-top: 60px;
+      padding: 20px;
+      background-color: #f2f2f2;
+      font-size: 14px;
+      text-align: center;
+      color: #666;
     }
   </style>
 </head>
 <body>
-  <h1>移動中...</h1>
-  <p>ページは <a href="https://mochizuki-akira.github.io/class-wang/">こちら</a> に自動的に移動します。</p>
-  <p>2秒以内に移動しない場合は、リンクをクリックしてください。</p>
+
+  <header>
+    <div class="logo">
+      <img src="logo.png" alt="築夢 Logo">
+      <div class="logo-text">築夢 | Build Dream</div>
+    </div>
+    <nav>
+      <a href="#">ホーム</a>
+      <a href="#">サービス</a>
+      <a href="#">会社概要</a>
+      <a href="#">お問い合わせ</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>外国人にも優しい不動産仲介サービス</h1>
+    <p>
+      築夢（Build Dream）は、日本で生活を始める外国人・留学生の方々に向けた、<br>
+      多言語対応・安心契約・スムーズな住まい探しを実現する不動産サービスです。
+    </p>
+
+    <div class="features">
+      <div class="feature">
+        <h3>多言語サポート</h3>
+        <p>日本語・中国語・英語対応で安心のサポート。</p>
+      </div>
+      <div class="feature">
+        <h3>保証人不要物件</h3>
+        <p>保証会社提携により外国人でもスムーズに入居可能。</p>
+      </div>
+      <div class="feature">
+        <h3>ビザ・生活支援</h3>
+        <p>生活開始に必要な手続きも一括でご案内。</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2025 株式会社築夢 - Build Dream Co., Ltd. All rights reserved.
+  </footer>
+
 </body>
 </html>
