@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>個人プロフィール | 王 梓同</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      padding: 30px;
+    }
+    .profile-photo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid white;
+    }
+    .ruby-name {
+      font-size: 12px;
+      color: #777;
+      margin-bottom: 0;
+    }
+    .name {
+      font-size: 28px;
+      margin-top: 0;
+    }
+    ul {
+      padding-left: 20px;
+      text-align: left;
+    }
+    li {
+      margin-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">
+      <img src="logo.png" alt="築夢 Logo">
+      <div class="logo-text">築夢 | Build Dream</div>
+    </div>
+    <div class="menu-toggle" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <nav id="nav-links">
+      <a href="#">ホーム</a>
+      <a href="#">サービス</a>
+      <a href="#">会社概要</a>
+      <a href="#">お問い合わせ</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="container">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <p class="ruby-name">おう しどう</p>
+          <p class="name">王 梓同</p>
+        </div>
+        <div>
+          <img src="photo.jpg" alt="プロフィール写真" class="profile-photo">
+        </div>
+      </div>
+
+      <h2>自己紹介</h2>
+      <p>東京科学大学物質理工学部に在学中で、教育業界においてEJU（日本留学試験）数学・化学の講師経験があります。EJUでは数学および化学で<strong>満点実績</strong>を複数回達成しました。今後、不動産関連分野にも関心を持ち、幅広い分野での活躍を目指しています。</p>
+
+      <h2>保有資格</h2>
+      <ul>
+        <li>日本語能力試験 JLPT N1</li>
+        <li>基本情報技術者試験 合格</li>
+        <li>日商簿記検定3級</li>
+      </ul>
+
+      <h2>スキル</h2>
+      <ul>
+        <li>HTMLによるWeb制作</li>
+        <li>EJU対策（数学・化学）指導</li>
+      </ul>
+
+      <h2>連絡先</h2>
+      <ul>
+        <li>メール: oushidou129@gmail.com</li>
+        <li>WeChat: oushidou040129</li>
+      </ul>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2025 株式会社築夢 - Build Dream Co., Ltd. All rights reserved.
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('nav-links').classList.toggle('show');
+    }
+  </script>
+
+</body>
+</html>
