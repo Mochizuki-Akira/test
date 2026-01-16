@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>发注格式 申请信息生成</title>
+  <style>
+    :root {
+      --ink: #1b1b1b;
+      --muted: #5d5d5d;
+      --paper: #f9f4ea;
+      --accent: #b94d2e;
+      --accent-2: #1f6f78;
+      --line: #e3d9c7;
+      --bg1: #f0e3d1;
+      --bg2: #f7f0e0;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif CJK JP", "Times New Roman", serif;
+      color: var(--ink);
+      background: radial-gradient(800px 500px at 10% -10%, #ffffff 0%, var(--bg1) 45%, transparent 60%),
+                  radial-gradient(900px 500px at 110% 10%, #fff8ef 0%, var(--bg2) 50%, transparent 65%),
+                  linear-gradient(180deg, #fffdf7 0%, #efe2cf 100%);
+      min-height: 100vh;
+    }
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 28px 18px 60px;
+    }
+    header {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .title {
+      font-size: 28px;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+    .card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    }
+    .card h2 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      color: var(--accent-2);
+      letter-spacing: 0.08em;
+    }
+    .fields {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 10px 12px;
+    }
+    .field {
+      grid-column: span 6;
+      display: grid;
+      gap: 6px;
+    }
+    .field.full { grid-column: 1 / -1; }
+    .field.third { grid-column: span 4; }
+    .field.quarter { grid-column: span 3; }
+    label {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid #d7c8b2;
+      background: #fffaf2;
+      color: var(--ink);
+      font-family: inherit;
+    }
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+    [hidden] { display: none !important; }
+    .inline {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .tag {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid var(--line);
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    button {
+      border: 0;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-family: inherit;
+      cursor: pointer;
+      background: var(--accent);
+      color: #fff;
+      letter-spacing: 0.08em;
+      box-shadow: 0 6px 16px rgba(185,77,46,0.25);
+    }
+    button.secondary {
+      background: #efe2cf;
+      color: #4a3c30;
+      box-shadow: none;
+      border: 1px solid var(--line);
+    }
+    pre {
+      white-space: pre-wrap;
+      background: #fffaf2;
+      border: 1px dashed #c9b59b;
+      padding: 14px;
+      border-radius: 12px;
+      min-height: 160px;
+      line-height: 1.55;
+      font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    }
+    .note {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 8px;
+    }
+    .copy-hint {
+      color: var(--accent-2);
+      font-size: 12px;
+      margin-left: 6px;
+    }
+    @media (max-width: 860px) {
+      .field, .field.third, .field.quarter { grid-column: 1 / -1; }
+      .inline { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="title">发注格式 申请信息生成</div>
+      <div class="subtitle">填写后点击“生成内容”，即可复制到申请表文本。无需导出文件。</div>
+    </header>
+
+    <div class="grid">
+      <section class="card">
+        <h2>发注格式</h2>
+        <div class="fields">
+          <div class="field third">
+            <label for="applyDate">申請日</label>
+            <input id="applyDate" type="date" />
+          </div>
+          <div class="field third">
+            <label for="moveInDate">入居希望日</label>
+            <input id="moveInDate" type="date" />
+          </div>
+          <div class="field third">
+            <label for="overseasToggle">是否为海外审查</label>
+            <select id="overseasToggle">
+              <option value="no">否</option>
+              <option value="yes">是</option>
+            </select>
+          </div>
+          <div class="field third" id="overseasEntryWrap" hidden>
+            <label for="overseasEntry">海外审查入境日</label>
+            <input id="overseasEntry" type="date" />
+          </div>
+          <div class="field full">
+            <label>内見否</label>
+            <div class="inline">
+              <select id="viewStatus">
+                <option value="済">済（已内见）</option>
+                <option value="未">未（未内见）</option>
+              </select>
+              <input id="viewDate" type="date" />
+              <input id="viewReason" type="text" placeholder="未内见理由" hidden />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>申請者 信息</h2>
+        <div class="fields">
+          <div class="field full">
+            <label for="applicantName">名前（汉字 + 拼音大写 + 片假名）</label>
+            <input id="applicantName" type="text" placeholder="张三 ZHANG SAN チョウ サン" />
+          </div>
+          <div class="field quarter">
+            <label for="currentZip">現住所邮编 〒</label>
+            <input id="currentZip" type="text" placeholder="123-4567" />
+          </div>
+          <div class="field">
+            <label for="currentAddress">現住所</label>
+            <input id="currentAddress" type="text" />
+          </div>
+          <div class="field quarter">
+            <label>居住年数</label>
+            <div class="inline">
+              <input id="currentYears" type="number" min="0" placeholder="年" />
+              <input id="currentMonths" type="number" min="0" max="11" placeholder="月" />
+            </div>
+          </div>
+          <div class="field quarter">
+            <label>在日年数</label>
+            <div class="inline">
+              <input id="jpYears" type="number" min="0" placeholder="年" />
+              <input id="jpMonths" type="number" min="0" max="11" placeholder="月" />
+            </div>
+          </div>
+          <div class="field quarter">
+            <label for="gender">性別</label>
+            <select id="gender">
+              <option value="">请选择</option>
+              <option value="男">男</option>
+              <option value="女">女</option>
+              <option value="其他">其他</option>
+            </select>
+          </div>
+          <div class="field quarter">
+            <label for="birthday">生年月日</label>
+            <input id="birthday" type="date" />
+          </div>
+          <div class="field quarter">
+            <label for="nation">国籍</label>
+            <input id="nation" type="text" />
+          </div>
+          <div class="field third">
+            <label for="tel">TEL</label>
+            <input id="tel" type="tel" placeholder="090-0000-0000" />
+          </div>
+          <div class="field third">
+            <label for="email">e-mail</label>
+            <input id="email" type="email" placeholder="name@example.com" />
+          </div>
+          <div class="field third">
+            <label for="income">月収/月仕送</label>
+            <input id="income" type="text" placeholder="月収 20万 / 仕送 5万" />
+          </div>
+          <div class="field full">
+            <label for="reason">搬家理由</label>
+            <textarea id="reason" placeholder="例如：通学の便"></textarea>
+          </div>
+          <div class="field third">
+            <label for="schoolWork">学校/会社</label>
+            <input id="schoolWork" type="text" />
+          </div>
+          <div class="field quarter">
+            <label for="workZip">邮编 〒</label>
+            <input id="workZip" type="text" placeholder="123-4567" />
+          </div>
+          <div class="field">
+            <label for="workAddress">住所</label>
+            <input id="workAddress" type="text" />
+          </div>
+          <div class="field third">
+            <label for="workTel">TEL</label>
+            <input id="workTel" type="tel" />
+          </div>
+          <div class="field quarter">
+            <label>在籍年数</label>
+            <div class="inline">
+              <input id="workYears" type="number" min="0" placeholder="年" />
+              <input id="workMonths" type="number" min="0" max="11" placeholder="月" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>在日緊急連絡先 信息</h2>
+        <div class="fields">
+          <div class="field full">
+            <label for="jpEmergencyName">名前（汉字 + 拼音大写 + 片假名）</label>
+            <input id="jpEmergencyName" type="text" />
+          </div>
+          <div class="field third">
+            <label for="jpEmergencyTel">TEL</label>
+            <input id="jpEmergencyTel" type="tel" />
+          </div>
+          <div class="field third">
+            <label for="jpEmergencyEmail">e-mail</label>
+            <input id="jpEmergencyEmail" type="email" />
+          </div>
+          <div class="field quarter">
+            <label for="jpEmergencyZip">現住所邮编 〒</label>
+            <input id="jpEmergencyZip" type="text" />
+          </div>
+          <div class="field">
+            <label for="jpEmergencyAddress">現住所</label>
+            <input id="jpEmergencyAddress" type="text" />
+          </div>
+          <div class="field quarter">
+            <label for="jpEmergencyGender">性別</label>
+            <select id="jpEmergencyGender">
+              <option value="">请选择</option>
+              <option value="男">男</option>
+              <option value="女">女</option>
+              <option value="其他">其他</option>
+            </select>
+          </div>
+          <div class="field quarter">
+            <label for="jpEmergencyBirthday">生年月日</label>
+            <input id="jpEmergencyBirthday" type="date" />
+          </div>
+          <div class="field quarter">
+            <label for="jpEmergencyNation">国籍</label>
+            <input id="jpEmergencyNation" type="text" />
+          </div>
+          <div class="field third">
+            <label for="jpEmergencyRelation">続柄</label>
+            <input id="jpEmergencyRelation" type="text" />
+          </div>
+          <div class="field third">
+            <label for="jpEmergencySchool">学校/会社</label>
+            <input id="jpEmergencySchool" type="text" />
+          </div>
+          <div class="field quarter">
+            <label for="jpEmergencyWorkZip">邮编 〒</label>
+            <input id="jpEmergencyWorkZip" type="text" />
+          </div>
+          <div class="field">
+            <label for="jpEmergencyWorkAddress">住所</label>
+            <input id="jpEmergencyWorkAddress" type="text" />
+          </div>
+          <div class="field third">
+            <label for="jpEmergencyWorkTel">TEL</label>
+            <input id="jpEmergencyWorkTel" type="tel" />
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>母国緊急連絡先 信息</h2>
+        <div class="fields">
+          <div class="field full">
+            <label for="homeEmergencyName">名前（汉字 + 拼音大写 + 片假名）</label>
+            <input id="homeEmergencyName" type="text" />
+          </div>
+          <div class="field third">
+            <label for="homeEmergencyTel">TEL</label>
+            <input id="homeEmergencyTel" type="tel" />
+          </div>
+          <div class="field third">
+            <label for="homeEmergencyEmail">e-mail</label>
+            <input id="homeEmergencyEmail" type="email" />
+          </div>
+          <div class="field full">
+            <label for="homeEmergencyAddress">現住所</label>
+            <input id="homeEmergencyAddress" type="text" />
+          </div>
+          <div class="field quarter">
+            <label for="homeEmergencyGender">性別</label>
+            <select id="homeEmergencyGender">
+              <option value="">请选择</option>
+              <option value="男">男</option>
+              <option value="女">女</option>
+              <option value="其他">其他</option>
+            </select>
+          </div>
+          <div class="field quarter">
+            <label for="homeEmergencyBirthday">生年月日</label>
+            <input id="homeEmergencyBirthday" type="date" />
+          </div>
+          <div class="field quarter">
+            <label for="homeEmergencyNation">国籍</label>
+            <input id="homeEmergencyNation" type="text" />
+          </div>
+          <div class="field third">
+            <label for="homeEmergencyRelation">続柄</label>
+            <input id="homeEmergencyRelation" type="text" />
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>生成内容</h2>
+        <div class="actions">
+          <button id="generateBtn" type="button">生成内容</button>
+          <button id="copyBtn" class="secondary" type="button">复制</button>
+          <span id="copyStatus" class="copy-hint"></span>
+        </div>
+        <pre id="output" aria-live="polite"></pre>
+        <div class="note">提醒：无需导出文件，复制以上内容发送至微信即可。</div>
+        <div class="note">个人信息使用说明：填写内容仅用于房源申请与审查联络，不作其他用途。</div>
+      </section>
+
+      <section class="card">
+        <h2>申请所需书类</h2>
+        <div class="tag">留学生</div>
+        <p>学生证(入学通知书)，在留卡（在留资格认定书），保险证，护照。半年生活费明细 or 貯金証明（賃料半年以上）</p>
+        <div class="tag">内定者</div>
+        <p>内定通知书（収入見込証明），在留卡，保险证，护照。</p>
+        <div class="tag">社会人</div>
+        <p>在留卡，保险证，护照，在职证明。工作未满一年：近三个月收入证明书（収入見込証明）。工作一年及以上：近三个月收入证明书 + 源泉徴収票。</p>
+        <p class="note">以上文件正反面，扫描件或清晰照片均可。</p>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const el = (id) => document.getElementById(id);
+
+    function formatYearsMonths(year, month) {
+      if (!year && !month) return "";
+      const y = year ? `${year}年` : "0年";
+      const m = month ? `${month}ヶ月` : "0ヶ月";
+      return `${y}${m}`;
+    }
+
+    function value(id) {
+      return el(id).value.trim();
+    }
+
+    function buildOutput() {
+      const viewStatus = value("viewStatus");
+      const viewDate = value("viewDate");
+      const viewReason = value("viewReason");
+      const viewDetail = viewStatus === "未" ? viewReason : viewDate;
+      const viewText = viewStatus ? `${viewStatus}（${viewDetail}）` : "";
+      const overseasLine = value("overseasToggle") === "yes"
+        ? `海外审查入境日：${value("overseasEntry")}`
+        : null;
+
+      const lines = [
+        "「发注格式」",
+        `申請日：${value("applyDate")}`,
+        `入居希望日：${value("moveInDate")}`,
+        overseasLine,
+        `内見否：${viewText}`,
+        "",
+        "「申請者」信息",
+        `名前：${value("applicantName")}`,
+        `現住所邮编：〒${value("currentZip")}`,
+        `現住所：${value("currentAddress")}`,
+        `居住年数：${formatYearsMonths(value("currentYears"), value("currentMonths"))}`,
+        `在日年数：${formatYearsMonths(value("jpYears"), value("jpMonths"))}`,
+        `性別：${value("gender")}`,
+        `生年月日：${value("birthday")}`,
+        `国籍：${value("nation")}`,
+        `TEL：${value("tel")}`,
+        `e-mail：${value("email")}`,
+        `月収/月仕送：${value("income")}`,
+        `搬家理由：${value("reason")}`,
+        `学校/会社：${value("schoolWork")}`,
+        `邮编：〒${value("workZip")}`,
+        `住所：${value("workAddress")}`,
+        `TEL：${value("workTel")}`,
+        `在籍年数：${formatYearsMonths(value("workYears"), value("workMonths"))}`,
+        "",
+        "「在日緊急連絡先」信息",
+        `名前：${value("jpEmergencyName")}`,
+        `TEL：${value("jpEmergencyTel")}`,
+        `e-mail：${value("jpEmergencyEmail")}`,
+        `現住所邮编：〒${value("jpEmergencyZip")}`,
+        `現住所：${value("jpEmergencyAddress")}`,
+        `性別：${value("jpEmergencyGender")}`,
+        `生年月日：${value("jpEmergencyBirthday")}`,
+        `国籍：${value("jpEmergencyNation")}`,
+        `続柄：${value("jpEmergencyRelation")}`,
+        `学校/会社：${value("jpEmergencySchool")}`,
+        `邮编：〒${value("jpEmergencyWorkZip")}`,
+        `住所：${value("jpEmergencyWorkAddress")}`,
+        `TEL：${value("jpEmergencyWorkTel")}`,
+        "",
+        "「母国緊急連絡先」信息",
+        `名前：${value("homeEmergencyName")}`,
+        `TEL：${value("homeEmergencyTel")}`,
+        `e-mail：${value("homeEmergencyEmail")}`,
+        `現住所：${value("homeEmergencyAddress")}`,
+        `性別：${value("homeEmergencyGender")}`,
+        `生年月日：${value("homeEmergencyBirthday")}`,
+        `国籍：${value("homeEmergencyNation")}`,
+        `続柄：${value("homeEmergencyRelation")}`
+      ];
+
+      return lines.filter((line) => line !== null).join("\n");
+    }
+
+    el("generateBtn").addEventListener("click", () => {
+      el("output").textContent = buildOutput();
+      el("copyStatus").textContent = "";
+    });
+
+    function updateViewInputs() {
+      const status = value("viewStatus");
+      const isUnseen = status === "未";
+      el("viewReason").hidden = !isUnseen;
+      el("viewDate").hidden = isUnseen;
+    }
+
+    function updateOverseas() {
+      const isOverseas = value("overseasToggle") === "yes";
+      el("overseasEntryWrap").hidden = !isOverseas;
+    }
+
+    function setToday() {
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, "0");
+      const dd = String(today.getDate()).padStart(2, "0");
+      el("applyDate").value = `${yyyy}-${mm}-${dd}`;
+    }
+
+    el("viewStatus").addEventListener("change", updateViewInputs);
+    el("overseasToggle").addEventListener("change", updateOverseas);
+    updateViewInputs();
+    updateOverseas();
+    setToday();
+
+    el("copyBtn").addEventListener("click", async () => {
+      const text = el("output").textContent.trim();
+      if (!text) {
+        el("copyStatus").textContent = "请先生成内容";
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(text);
+        el("copyStatus").textContent = "已复制";
+      } catch (err) {
+        el("copyStatus").textContent = "复制失败，请手动复制";
+      }
+    });
+  </script>
+</body>
+</html>
